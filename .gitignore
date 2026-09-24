@@ -1,10 +1,14 @@
 # Credenciales y archivos de entorno
 .env
+.env.*
+!.env.example
 
-# Entorno virtual de Python
-/venv/
-/*.venv/
+# Entornos virtuales de Python
+.venv/
+venv/
+*.venv/
 
 # Caché de Python
 __pycache__/
-*.pyc
+*.py[cod]
+.pytest_cache/
