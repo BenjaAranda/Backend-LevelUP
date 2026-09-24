@@ -16,18 +16,25 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # ---------------------------
-# CONFIG / CREDENCIALES RDS
+# CONFIGURACIÓN SEGURA
 # ---------------------------
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_NAME = os.getenv("DB_NAME", "postgres")
-DB_USER = os.getenv("DB_USER", "postgres")
-DB_PASS = os.getenv("DB_PASS", "REDACTED_DB_PASSWORD")
-DB_PORT = int(os.getenv("DB_PORT", 5432))
+def require_env(name):
+    value = os.getenv(name)
+    if not value:
+        raise RuntimeError(f"La variable de entorno {name} es obligatoria")
+    return value
 
-# Secret para JWT (en producción ponlo en variable de entorno segura)
-JWT_SECRET = os.getenv("JWT_SECRET", "REDACTED_JWT_SECRET")
+
+DB_HOST = require_env("DB_HOST")
+DB_NAME = require_env("DB_NAME")
+DB_USER = require_env("DB_USER")
+DB_PASS = require_env("DB_PASS")
+DB_PORT = int(os.getenv("DB_PORT", "5432"))
+
+JWT_SECRET = require_env("JWT_SECRET")
 JWT_ALGORITHM = "HS256"
-JWT_EXP_HOURS = int(os.getenv("JWT_EXP_HOURS", 24))
+JWT_EXP_HOURS = int(os.getenv("JWT_EXP_HOURS", "24"))
+
 
 app = Flask(__name__)
 CORS(app)
@@ -661,4 +668,4 @@ if __name__ == "__main__":
     print("Iniciando servidor Flask...")
     create_tables()
     # ejecuta en 0.0.0.0 para ser accesible desde emulador y red local
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=os.getenv("FLASK_DEBUG", "false").lower() == "true")
