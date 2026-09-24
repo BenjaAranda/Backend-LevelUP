@@ -42,12 +42,12 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=levelup
 DB_USER=postgres
-DB_PASS=tu_contrasena
+DB_PASS=tu_contrasena_local
 JWT_SECRET=una_clave_larga_y_aleatoria
 JWT_EXP_HOURS=24
 ```
 
-No publiques credenciales reales ni el archivo `.env`.
+Puedes copiar `.env.example` como `.env`. No publiques credenciales reales ni el archivo `.env`.
 
 ## Ejecución
 
